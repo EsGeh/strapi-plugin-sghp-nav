@@ -4,7 +4,7 @@
   "description": "Navigation Plugin for Strapi.",
   "strapi": {
     "name": "sghp-nav",
-    "description": "Create and edit tree-like navigation data via graphical user interface.",
+    "description": "Plugin for strapi to create, edit and retrieve website navigation structure.",
     "kind": "plugin"
   },
   "keywords": [
