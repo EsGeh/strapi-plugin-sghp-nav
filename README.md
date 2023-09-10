@@ -7,7 +7,7 @@ Plugin for [Strapi](https://strapi.io/) to create, edit and retrieve website nav
 - Graphical user interface for editing site navigation
 - i18n, Nationalization: seperate navigation for every locale
 - Configurable via config file
-- Navigation items may be associated with a custom content type (that represents a subpage)
+- Navigation items may be associated with a custom content type (ie. that represents a subpage)
 - Import / Export of navigation structure via strapis native command line tools
 
 # Installation
