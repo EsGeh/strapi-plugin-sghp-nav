@@ -33,6 +33,8 @@ export default factories.createCoreService('plugin::sghp-nav.navigation', ({ str
     if( !navData ) {
       throw new errors.NotFoundError('Navigation not found');
     }
+    if( !navData.items )
+      return navData;
     const renderedItems = typeUtils.renderPathsItems(
       utils.fromFlatItems(
         navData.items
