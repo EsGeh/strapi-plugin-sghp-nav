@@ -2,6 +2,10 @@
 
 Plugin for [Strapi](https://strapi.io/) to create, edit and retrieve website navigation structure.
 
+## Remark
+
+Work in progress. Stay tuned...
+
 # Features:
 
 - Graphical user interface for editing site navigation
