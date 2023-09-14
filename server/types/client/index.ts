@@ -5,8 +5,10 @@ import {
 } from "./type_utils";
 
 import * as typeDescr from "./type_descriptions";
+import { Relation } from "@strapi/strapi/lib/types/core/attributes";
+import { SimpleInterpolation } from "styled-components";
 
-export {
+export type {
   RestReturn,
   SubArgs,
   Shortcut,
@@ -34,17 +36,51 @@ export type RenderReturn<Related = never> =
 export type RenderReturnRest<Related = never> =
   [Related] extends [never]
   ?
-  ReplaceFieldRec<
-    FindReturnRest<Related,RenderArgsNoRelated>,
-    "subItems",
-    FindReturnRest<Related,RenderArgsNoRelated>["attributes"]["items"]
+  NestedNavFromNormal<
+    FindReturnRest<Related,RenderArgsNoRelated>
   >
   :
-  ReplaceFieldRec<
-    FindReturnRest<Related,RenderArgsWithRelated>,
-    "subItems",
-    FindReturnRest<Related,RenderArgsWithRelated>["attributes"]["items"]
+  NestedNavFromNormal<
+    FindReturnRest<Related,RenderArgsWithRelated>
   >
+;
+
+type NestedNavFromNormal<Nav> =
+  ReplaceFieldRec<
+    Nav,
+    "items",
+    {
+      data:
+        NestedFromSimpleItem<
+          GetItemType< Nav >
+        >[]
+    }
+  >
+;
+
+type GetItemType<Nav> =
+  Nav extends {
+    attributes: {
+      items: {
+        data: (infer FlatItemType)[]
+      }
+    }
+  }
+  ? FlatItemType
+  : never
+;
+
+type NestedFromSimpleItem<T> =
+  T extends { attributes: any }
+  ? {
+    id: number,
+    attributes: T["attributes"] & {
+      subItems: {
+        data: NestedFromSimpleItem<T>[]
+      }
+    }
+  }
+  : T
 ;
 
 export type FindReturn<Related,FindArgs> = Shortcut<FindReturnRest<Related,FindArgs>>;
@@ -59,7 +95,7 @@ const renderArgs = {
   populate: {
     items: {
       populate: {
-        subItems: true,
+        // subItems: true,
         // related: true,
       }
     },
@@ -71,7 +107,7 @@ const renderArgsWithRelated = {
   populate: {
     items: {
       populate: {
-        subItems: true,
+        // subItems: true,
         related: true,
       }
     },
@@ -81,6 +117,9 @@ const renderArgsWithRelated = {
 
 type RenderArgsNoRelated = typeof renderArgs;
 type RenderArgsWithRelated = typeof renderArgsWithRelated;
+
+
+/* Utils */
 
 type ReplaceFieldRec<T, Key, New> =
   Key extends keyof T ? (Omit<T,Key> & Record<Key,New> )

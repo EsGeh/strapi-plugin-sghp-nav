@@ -23,7 +23,7 @@ export type Shortcut<T> = ShortcutAttrs<T>;
   }
 */
 type ShortcutAttrs<T> =
-  T extends { attributes }
+  T extends { attributes: any }
   ?
     Omit<T, "attributes">
     & MapShortcutData<T["attributes"]>

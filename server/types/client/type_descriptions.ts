@@ -4,7 +4,7 @@ import {
   Shortcut,
 } from "./type_utils";
 
-export {
+export type {
   RestReturn,
   SubArgs,
   Shortcut,
