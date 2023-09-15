@@ -9,6 +9,8 @@ import {
   IconButton,
   Button,
   Flex,
+  Badge,
+  GridLayout,
 } from '@strapi/design-system';
 
 import { useTheme } from 'styled-components';
@@ -97,33 +99,61 @@ const ItemCard: FunctionComponent<Args> = (args) => {
         <Flex
           alignItems="center"
           width="100%"
+          gap={ theme['spaces'][2] }
         >
           { /* CAPTIONS */ }
           <Flex
             flexGrow="0"
             alignItems="center"
             width="100%"
+            wrap="wrap"
+            gap={ theme['spaces'][2] }
           >
-            <Flex
-              width="50%"
+            <Box
+              padding={ theme['spaces'][2] }
+              grow={ 1 }
+              width="150px"
+              borderColor="neutral200"
+              // background="neutral200"
             >
-            <Typography
-              fontWeight="bold"
-              textColor={ theme['colors']['primary800'] }
-            >{
-              item.title
-            }</Typography>
-            </Flex>
-            <Flex
-              width="50%"
+              <Typography
+                elipsis
+                fontWeight="bold"
+                textColor={ theme['colors']['primary800'] }
+              >{
+                item.title
+              }</Typography>
+            </Box>
+            <Box
+              padding={ theme['spaces'][2] }
+              grow={ 1 }
+              width="150px"
+              borderColor="neutral200"
+              // background="neutral200"
             >
-            <Typography
-              fontWeight="bold"
-              textColor={ theme['colors']['primary800'] }
-            >{
-              `/${item.path}`
-            }</Typography>
-            </Flex>
+              <Typography
+                elipsis
+                fontWeight="bold"
+                textColor={ theme['colors']['primary800'] }
+              >{
+                `/${item.path}`
+              }</Typography>
+            </Box>
+            <Box
+              grow={ 1 }
+              padding={ theme['spaces'][2] }
+              width="150px"
+            >
+            {
+              item.related
+              &&
+              <Badge
+                active={ item.related }
+              >{
+                `${ item.related?.displayName }`
+              }</Badge>
+            }
+            </Box>
           </Flex>
           { /* EDIT BUTTONS */ }
           <Flex
