@@ -5,8 +5,6 @@ import {
 } from "./type_utils";
 
 import * as typeDescr from "./type_descriptions";
-import { Relation } from "@strapi/strapi/lib/types/core/attributes";
-import { SimpleInterpolation } from "styled-components";
 
 export type {
   RestReturn,
