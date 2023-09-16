@@ -11,6 +11,9 @@ export default {
     "comment": ""
   },
  "pluginOptions": {
+    "content-manager": {
+      "visible": false
+    },
     "content-type-builder": {
       "visible": false
     }

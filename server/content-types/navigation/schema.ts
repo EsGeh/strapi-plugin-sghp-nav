@@ -14,6 +14,9 @@ export default {
     "i18n": {
       "localized": true
     },
+    "content-manager": {
+      "visible": false
+    },
     "content-type-builder": {
       "visible": true
     }
