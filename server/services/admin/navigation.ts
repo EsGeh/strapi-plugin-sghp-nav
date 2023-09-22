@@ -58,7 +58,8 @@ export default factories.createCoreService('plugin::sghp-nav.navigation', ({ str
       items: renderedItems,
       relatedEntities: relatedEntities.map( entity => ( {
         id: entity.id,
-        displayName: entity[config.relatedDisplayField],
+        displayName:
+          entity[config.relatedDisplayField] ?? entity.id,
       } ) ),
     }
   },
