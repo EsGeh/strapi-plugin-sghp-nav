@@ -183,6 +183,10 @@ const AddItemModal: FunctionComponent<Args> = (args) => {
               state.formData.related = args.relatedEntities.find( x => x.id == e ) ?? null;
               setState( {...state} );
             } }
+            onClear={ () => {
+              state.formData.related = null;
+              setState( {...state} );
+            } }
           >
             {
             args.relatedEntities.map( (relatedEntity, i) => (
