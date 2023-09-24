@@ -1,4 +1,4 @@
-import * as types from '../../types/client';
+import * as types from '../../../../sghp-nav-front/src/types';
 import { Config } from '../../config';
 import * as utils from './../utils'
 import * as typeUtils from '../../types/utils';
@@ -67,18 +67,6 @@ export default factories.createCoreService('plugin::sghp-nav.navigation', ({ str
   {
     return await super.find( params );
   },
-
-  /*
-  async testRender() {
-    let t: types.RenderReturn<{bla: 10}> = await this.render();
-    t.items[0].related
-  },
-
-  async testFind() {
-    let t: types.FindReturn<{ bla: 10},typeof Private.findRawArgsWithRelated> = await this.find(findRawArgs);
-    t.items[0].related.bla
-  },
-  */
 
 }));
 

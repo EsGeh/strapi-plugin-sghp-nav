@@ -1,0 +1,12 @@
+{
+  "files": ["src/index.ts"],
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "es2015",
+    "baseUrl": "./src",
+    "outDir": "./dist",
+    "strict": true,
+    "declaration": true,
+    "types": []
+  }
+}

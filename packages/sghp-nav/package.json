@@ -1,5 +1,5 @@
 {
-  "name": "strapi-plugin-sghp-nav",
+  "name": "@sgsoftware/strapi-plugin-sghp-nav",
   "version": "0.0.0",
   "description": "Navigation Plugin for Strapi.",
   "strapi": {
@@ -56,7 +56,7 @@
   "homepage": "https://github.com/EsGeh/strapi-plugin-sghp-nav",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EsGeh/strapi-plugin-sghp-nav"
+    "url": "git+https://github.com/EsGeh/strapi-plugin-sghp-nav.git"
   },
   "engines": {
     "node": ">=16.0.0 <=20.x.x",
