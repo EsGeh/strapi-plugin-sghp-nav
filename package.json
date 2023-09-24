@@ -4,14 +4,16 @@
   "description": "Navigation Plugin for Strapi.",
   "strapi": {
     "name": "sghp-nav",
-    "description": "Plugin for strapi to create, edit and retrieve website navigation structure.",
+    "description": "Plugin for strapi to create, edit and retrieve website navigation structure",
     "kind": "plugin"
   },
   "keywords": [
     "strapi",
     "plugin",
     "navigation",
-    "menu"
+    "menu",
+    "typescript",
+    "types"
   ],
   "dependencies": {
     "@sindresorhus/slugify": "^2.2.1",
@@ -51,6 +53,11 @@
       "url": "https://esgeh.net"
     }
   ],
+  "homepage": "https://github.com/EsGeh/strapi-plugin-sghp-nav",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EsGeh/strapi-plugin-sghp-nav"
+  },
   "engines": {
     "node": ">=16.0.0 <=20.x.x",
     "npm": ">=6.0.0"
