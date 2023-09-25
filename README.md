@@ -266,10 +266,10 @@ This project is far from complete but effort has been taken in well structured c
 This plugin was born from practical considerations and aims to close some gaps of other existing solutions which seemed to fail the folllowing requirements (as of 2023-09-11):
 
 - Import / Export via strapis native command line tools ([without breaking relations](https://github.com/VirtusLab-Open-Source/strapi-plugin-navigation/issues/317))
-- Internationalization (missing in [2])
+- Internationalization (missing in `strapi-plugin-menus`)
 
 # References
 
-- [1]: [strapi-plugin-navigation](https://github.com/VirtusLab-Open-Source/strapi-plugin-navigation)
-- [2]: [strapi-plugin-menus](https://github.com/mattmilburn/strapi-plugin-menus)
-- [3]: [types-4-strapi-2](https://github.com/Oak-Digital/types-4-strapi-2) 
+- [strapi-plugin-navigation](https://github.com/VirtusLab-Open-Source/strapi-plugin-navigation)
+- [strapi-plugin-menus](https://github.com/mattmilburn/strapi-plugin-menus)
+- [types-4-strapi-2](https://github.com/Oak-Digital/types-4-strapi-2) 
