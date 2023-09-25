@@ -167,7 +167,7 @@ Get Params:
 Example code:
 
   // IMPORTS:
-  import * as navTypes from "strapi-plugin-sghp-nav/server/types/client"; <- (1)
+  import * as navTypes from "strapi-plugin-sghp-nav-front/types"; <- (1)
   const qs = require( "qs" );
 
   // CONSTANTS:
