@@ -1,6 +1,6 @@
 {
   "name": "@sgsoftware/strapi-plugin-sghp-nav",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Navigation Plugin for Strapi.",
   "strapi": {
     "name": "sghp-nav",
