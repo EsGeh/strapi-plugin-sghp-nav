@@ -36,7 +36,8 @@
   "license": "MIT",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+		"doc"
   ],
   "types": "dist/types/index.d.ts"
 }
