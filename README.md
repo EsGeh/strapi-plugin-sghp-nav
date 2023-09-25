@@ -164,6 +164,19 @@ Get Params:
 
 # Query from frontend
 
+There is a npm package that provides the correct typings for the REST response.
+To install it, `cd` to your prontend package and issue:
+
+- Install via npm:
+
+    $ npm install @sgsoftware/strapi-plugin-sghp-nav-front  # (for npm)
+
+- Install via yarn:
+
+    $ yarn add @sgsoftware/strapi-plugin-sghp-nav-front     # (for yarn)
+
+The following code snipped shows how to fetch navigation data from the strapi backend via REST.
+
 Example code:
 
     // IMPORTS:
