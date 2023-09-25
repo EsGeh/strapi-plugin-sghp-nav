@@ -166,73 +166,73 @@ Get Params:
 
 Example code:
 
-  // IMPORTS:
-  import * as navTypes from "strapi-plugin-sghp-nav-front/types"; <- (1)
-  const qs = require( "qs" );
+    // IMPORTS:
+    import * as navTypes from "@sgsoftware/strapi-plugin-sghp-nav-front";  <- (1)
+    const qs = require( "qs" );
 
-  // CONSTANTS:
-  const backendUrl = "http://127.0.0.1:1337" // <- adjust as needed
+    // CONSTANTS:
+    const backendUrl = "http://127.0.0.1:1337" // <- adjust as needed
 
-  const apiUrl = backendUrl + "/api" ;
+    const apiUrl = backendUrl + "/api" ;
 
-  const pageParams = {
-    populate: [
-      "localizations",
-      // ...
-    ],
-    // fields: ...
-  } as const;
+    const pageParams = {
+      populate: [
+        "localizations",
+        // ...
+      ],
+      // fields: ...
+    } as const;
 
-  // TYPES:
+    // TYPES:
 
-  type Navigation = navTypes.RenderReturnRest<Page>;
-  type NavigationItem = Navigation["attributes"]["items"]["data"][number];
+    type Navigation = navTypes.RenderReturnRest<Page>;
+    type NavigationItem = Navigation["attributes"]["items"]["data"][number];
 
-  type Page = {
-    attributes: {
-      /* just as an example:
-      title: string | null,
-      content: string | null,
-      */
-      localizations: {
-        data: {
-          locale: string | null,
-        }[]
+    type Page = {
+      attributes: {
+        /* just as an example:
+        title: string | null,
+        content: string | null,
+        */
+        localizations: {
+          data: {
+            locale: string | null,
+          }[]
+        }
       }
     }
-  }
 
-  export interface Locale { 
-    name: string,
-    code: string,
-    isDefault: boolean,
-  };
+    export interface Locale { 
+      name: string,
+      code: string,
+      isDefault: boolean,
+    };
 
-  // FUNCTIONS:
-  export async function getNavigation(
-    locale: string|null = null,
-  ):
-    Promise<Navigation>
-  {
-    const apiKey = "sghp-nav/render";
-    let queryObj: Record<string, any> = {
-      populateRelated: pageParams
+    // FUNCTIONS:
+    export async function getNavigation(
+      locale: string|null = null,
+    ):
+      Promise<Navigation>
+    {
+      const apiKey = "sghp-nav/render";
+      let queryObj: Record<string, any> = {
+        populateRelated: pageParams
+      }
+      if( locale ) {
+        queryObj.locale = locale;
+      }
+      const query = qs.stringify( queryObj );
+      const url: string = `${apiUrl}/${apiKey}?${ query }`;
+      const response = await fetch( url );
+      if( ! response?.ok ) {
+        throw new Error( `Error when fetching data from '${url}': returned HTTP status '${response.status}'` );
+      }
+      const data = await response.json();
+      if( !data ) {
+        throw new Error( `Error when fetching data from '${url}': no data!` );
+      }
+      return data as Navigation;
     }
-    if( locale ) {
-      queryObj.locale = locale;
-    }
-    const query = qs.stringify( queryObj );
-    const url: string = `${apiUrl}/${apiKey}?${ query }`;
-    const response = await fetch( url );
-    if( ! response?.ok ) {
-      throw new Error( `Error when fetching data from '${url}': returned HTTP status '${response.status}'` );
-    }
-    const data = await response.json();
-    if( !data ) {
-      throw new Error( `Error when fetching data from '${url}': no data!` );
-    }
-    return data as Navigation;
-  }
 
 Eplanation:
 

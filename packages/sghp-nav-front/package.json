@@ -31,9 +31,12 @@
   "homepage": "https://github.com/EsGeh/strapi-plugin-sghp-nav",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EsGeh/strapi-plugin-sghp-nav"
+    "url": "git+https://github.com/EsGeh/strapi-plugin-sghp-nav.git"
   },
   "license": "MIT",
-  "files": ["dist", "README.md"],
-  "types": "dist/index.d.ts"
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "types": "dist/types/index.d.ts"
 }
