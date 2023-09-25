@@ -1,12 +1,13 @@
 {
   "name": "@sgsoftware/strapi-plugin-sghp-nav-front",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Frontend types for the Navigation Plugin for Strapi.",
   "devDependencies": {
     "typescript": "5.0.4"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "prepare": "npm run build"
   },
   "keywords": [
     "strapi",
