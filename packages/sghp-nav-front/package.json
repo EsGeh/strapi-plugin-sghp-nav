@@ -6,7 +6,8 @@
     "typescript": "5.0.4"
   },
   "scripts": {
-    "build": "rm -rf dist/ && tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist/ tsconfig.tsbuildinfo",
     "prepare": "npm run build"
   },
   "keywords": [
