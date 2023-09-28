@@ -24,11 +24,11 @@ Plugin for [Strapi](https://strapi.io/) to create, edit and retrieve website nav
 
     - Install via npm:
 
-        $ npm install @sgsoftware/strapi-plugin-sghp-nav
+            $ npm install @sgsoftware/strapi-plugin-sghp-nav
 
     - Install via yarn:
 
-        $ yarn add @sgsoftware/strapi-plugin-sghp-nav
+            $ yarn add @sgsoftware/strapi-plugin-sghp-nav
 
 2. [Create the necessary configuration](#configuration) as described below.
 
@@ -169,11 +169,11 @@ To install it, `cd` to your prontend package and issue:
 
 - Install via npm:
 
-    $ npm install @sgsoftware/strapi-plugin-sghp-nav-front  # (for npm)
+        $ npm install @sgsoftware/strapi-plugin-sghp-nav-front
 
 - Install via yarn:
 
-    $ yarn add @sgsoftware/strapi-plugin-sghp-nav-front     # (for yarn)
+        $ yarn add @sgsoftware/strapi-plugin-sghp-nav-front
 
 *Attention*: In order to be able to import the frontend types, your `tsconfig.json` must include the following line:
 
