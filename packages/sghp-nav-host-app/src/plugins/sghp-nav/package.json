@@ -1,6 +1,6 @@
 {
   "name": "@sgsoftware/strapi-plugin-sghp-nav",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Navigation Plugin for Strapi.",
   "strapi": {
     "name": "sghp-nav",
@@ -64,7 +64,7 @@
   },
   "scripts": {
     "develop": "tsc -p tsconfig.server.json -w",
-    "build": "tsc -p tsconfig.server.json"
+    "build": "tsc --build tsconfig.server.json"
   },
   "license": "MIT"
 }

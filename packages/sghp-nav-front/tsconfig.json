@@ -1,12 +1,10 @@
 {
-  "include": ["src/types"],
+  "include": ["src"],
   "compilerOptions": {
 		"rootDir": "./src",
-    "target": "es2015",
-    "module": "es2015",
     "outDir": "./dist",
     "strict": true,
     "declaration": true,
-    "types": []
+		"composite": true
   }
 }

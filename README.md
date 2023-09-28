@@ -1,1 +1,1 @@
-packages/sghp-nav/README.md
+packages/sghp-nav-host-app/src/plugins/sghp-nav/README.md

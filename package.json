@@ -1,13 +1,13 @@
 {
-  "name": "@sgsoftware/strapi-plugin-sghp-nav-front",
+  "name": "@sgsoftware/strapi-plugin-sghp-nav",
   "version": "0.0.4",
   "description": "Frontend types for the Navigation Plugin for Strapi.",
   "devDependencies": {
     "typescript": "5.0.4"
   },
   "scripts": {
-    "build": "rm -rf dist/ && tsc -p tsconfig.json",
-    "prepare": "npm run build"
+    "build": "cd ./packages/sghp-nav-host-app && yarn && npm run buildplugins",
+    "clean": "rm -rf ./packages/sghp-nav-front/dist ./packages/sghp-nav-front/tsconfig.tsbuildinfo ./packages/sghp-nav-host-app/src/plugins/sghp-nav/dist"
   },
   "keywords": [
     "strapi",

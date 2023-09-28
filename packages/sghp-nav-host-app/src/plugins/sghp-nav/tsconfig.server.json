@@ -3,8 +3,15 @@
 
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "."
+    "rootDir": ".",
+    "moduleResolution": "nodenext"
   },
+
+  "references": [
+    {
+      "path": "../../../../sghp-nav-front/tsconfig.json"
+    }
+  ],
 
   "include": [
     // Include the root directory

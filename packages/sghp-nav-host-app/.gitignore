@@ -80,7 +80,8 @@ $RECYCLE.BIN/
 ssl
 .idea
 nbproject
-public/uploads
+public/uploads/*
+!public/uploads/.gitkeep
 
 ############################
 # Node.js
@@ -98,7 +99,6 @@ node_modules
 # Tests
 ############################
 
-testApp
 coverage
 
 ############################
@@ -112,9 +112,3 @@ exports
 dist
 build
 .strapi-updater.json
-
-############################
-# Typescript
-############################
-
-*.tsbuildinfo

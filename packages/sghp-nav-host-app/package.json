@@ -1,0 +1,31 @@
+{
+  "name": "sghp-nav-host-app",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A Strapi application as a dummy host for the sghp-nav-plugin",
+  "scripts": {
+    "buildplugins": "cd src/plugins/sghp-nav/ && yarn && npm run build",
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "@strapi/strapi": "4.13.7",
+    "@strapi/plugin-users-permissions": "4.13.7",
+    "@strapi/plugin-i18n": "4.13.7",
+    "better-sqlite3": "8.6.0"
+  },
+  "author": {
+    "name": "A Strapi developer"
+  },
+  "strapi": {
+    "uuid": "d40e57f1-59a7-48ff-b898-0a7f5d4c386a"
+  },
+  "engines": {
+    "node": ">=16.0.0 <=20.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}

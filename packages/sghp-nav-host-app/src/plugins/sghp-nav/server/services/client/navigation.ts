@@ -1,4 +1,4 @@
-import * as types from '../../../../sghp-nav-front/src/types';
+import * as types from '../../../../../../../sghp-nav-front/src/types';
 import { Config } from '../../config';
 import * as utils from './../utils'
 import * as typeUtils from '../../types/utils';
