@@ -7,7 +7,9 @@
   },
   "scripts": {
     "build": "cd ./packages/sghp-nav-host-app && yarn && npm run buildplugins",
-    "clean": "rm -rf ./packages/sghp-nav-front/dist ./packages/sghp-nav-front/tsconfig.tsbuildinfo ./packages/sghp-nav-host-app/src/plugins/sghp-nav/dist"
+    "clean": "npm run clean-front && npm run clean-plugin",
+    "clean-front": "cd ./packages/sghp-nav-front && npm run clean",
+    "clean-plugin": "rm -rf ./packages/sghp-nav-host-app/src/plugins/sghp-nav/dist"
   },
   "keywords": [
     "strapi",
