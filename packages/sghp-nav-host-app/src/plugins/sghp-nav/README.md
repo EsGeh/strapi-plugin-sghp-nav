@@ -175,30 +175,12 @@ To install it, `cd` to your prontend package and issue:
 
         $ yarn add @sgsoftware/strapi-plugin-sghp-nav-front
 
-*Attention*: In order to be able to import the frontend types, your `tsconfig.json` must include the following line:
-
-    ...
-    "compilerOptions": {
-      ...,
-      "moduleResolution": "nodenext"
-    }
-    ...
-
-or
-
-    ...
-    "compilerOptions": {
-      ...,
-      "moduleResolution": "node16"
-    }
-    ...
-
 The following code snipped shows how to fetch navigation data from the strapi backend via REST.
 
 Example code:
 
     // IMPORTS:
-    import * as navTypes from "@sgsoftware/strapi-plugin-sghp-nav-front/types";  <- (1)
+    import * as navTypes from "@sgsoftware/strapi-plugin-sghp-nav-front";  <- (1)
     const qs = require( "qs" );
 
     // CONSTANTS:

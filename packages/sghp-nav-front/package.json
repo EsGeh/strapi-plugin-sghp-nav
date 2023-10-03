@@ -40,8 +40,6 @@
 		"dist",
 		"README"
 	],
-	"exports": {
-		"./types": "dist/types/index.js"
-	},
-	"main": "dist/types/index.js"
+	"main": "dist/types/index.js",
+	"types": "dist/types/index.d.ts"
 }
