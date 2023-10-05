@@ -1,7 +1,7 @@
 {
   "name": "@sgsoftware/strapi-plugin-sghp-nav",
   "version": "1.0.0",
-  "description": "Frontend types for the Navigation Plugin for Strapi.",
+  "description": "Plugin for strapi to create, edit and retrieve website navigation structure",
   "devDependencies": {
     "typescript": "5.0.4"
   },
@@ -36,13 +36,5 @@
     "type": "git",
     "url": "git+https://github.com/EsGeh/strapi-plugin-sghp-nav.git"
   },
-  "license": "MIT",
-	"files": [
-		"dist",
-		"README"
-	],
-	"exports": {
-		"./types": "dist/types/index.js"
-	},
-	"main": "dist/types/index.js"
+  "license": "MIT"
 }

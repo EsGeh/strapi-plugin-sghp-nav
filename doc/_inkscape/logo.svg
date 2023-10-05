@@ -2,8 +2,8 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="155.00002"
-   height="1"
+   width="600"
+   height="600"
    viewBox="0 0 155.00001 0"
    version="1.1"
    id="svg5"
@@ -11,6 +11,7 @@
    sodipodi:docname="logo.svg"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
+   inkscape:export-filename="../logo.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -31,9 +32,9 @@
      inkscape:zoom="0.66426961"
      inkscape:cx="140.00339"
      inkscape:cy="335.70706"
-     inkscape:window-width="1598"
-     inkscape:window-height="884"
-     inkscape:window-x="0"
+     inkscape:window-width="1278"
+     inkscape:window-height="1022"
+     inkscape:window-x="1600"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg5"
@@ -48,10 +49,21 @@
        spacingy="10"
        units="px"
        empspacing="2"
-       originx="-8.6160581e-15"
-       originy="3.9561805e-06"
+       originx="0"
+       originy="0"
        enabled="true"
        visible="true" />
+    <inkscape:page
+       x="8.6160581e-15"
+       y="-3.9561805e-06"
+       width="155.00002"
+       height="0"
+       id="page1935"
+       margin="0"
+       bleed="0"
+       inkscape:export-filename="logo.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
   </sodipodi:namedview>
   <defs
      id="defs2">
@@ -145,7 +157,7 @@
   <g
      inkscape:label="icon_sg_colored"
      id="g6"
-     transform="matrix(41.65084,0,0,41.650791,16.421273,16.421273)"
+     transform="matrix(41.65084,0,0,41.650791,16.421273,16.421269)"
      inkscape:export-filename="../data/icon_sg_colored.svg"
      inkscape:export-xdpi="96"
      inkscape:export-ydpi="96"
@@ -253,7 +265,7 @@
        id="g122"
        mask="none"
        clip-path="url(#clipPath124)"
-       style="display:inline;opacity:0.602502;stroke:#000000;stroke-opacity:1;filter:url(#filter127)">
+       style="display:inline;opacity:0.60250195;stroke:#000000;stroke-opacity:1;filter:url(#filter127)">
       <rect
          style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.114653;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
          id="rect54"

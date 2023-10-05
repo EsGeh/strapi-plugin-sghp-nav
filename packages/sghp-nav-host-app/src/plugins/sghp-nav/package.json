@@ -1,7 +1,7 @@
 {
   "name": "@sgsoftware/strapi-plugin-sghp-nav",
   "version": "1.0.0",
-  "description": "Navigation Plugin for Strapi.",
+  "description": "Plugin for strapi to create, edit and retrieve website navigation structure",
   "strapi": {
     "name": "sghp-nav",
     "description": "Plugin for strapi to create, edit and retrieve website navigation structure",
