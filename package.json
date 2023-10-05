@@ -1,6 +1,6 @@
 {
   "name": "@sgsoftware/strapi-plugin-sghp-nav",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "description": "Frontend types for the Navigation Plugin for Strapi.",
   "devDependencies": {
     "typescript": "5.0.4"
