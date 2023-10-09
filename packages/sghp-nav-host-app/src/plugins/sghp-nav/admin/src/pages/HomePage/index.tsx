@@ -259,6 +259,7 @@ function HomePage() {
             ? <EmptyStateLayout content="No content yet..." />
             : (
               <ItemList
+                config={ state.config }
                 items={ state.data.items }
                 onSetRemoved={ onItemSetRemoved }
                 onMoveUp={ onItemMoveUp }

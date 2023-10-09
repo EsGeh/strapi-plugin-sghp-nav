@@ -160,15 +160,26 @@ export function renderPathsItems(
   NavItem[]
 {
   return items.map( item => {
-    let path = `/${ item.path }`;
-    if( hierarchicalPaths && parentPath )
-      path = joinPaths( parentPath, item.path );
+    const path = renderPath( item, hierarchicalPaths, parentPath );
     return {
       ...item,
       path: path,
       subItems: renderPathsItems( item.subItems, hierarchicalPaths, path),
     }
   } );
+}
+
+export function renderPath(
+  item: NavItem,
+  hierarchicalPaths: boolean,
+  parentPath?: string,
+):
+  string
+{
+  let path = `/${ item.path }`;
+  if( hierarchicalPaths && parentPath )
+    path = joinPaths( parentPath, item.path );
+  return path;
 }
 
 function joinPaths( p1: string, p2: string ) {

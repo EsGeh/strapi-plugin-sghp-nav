@@ -1,4 +1,6 @@
 import { FrontNav, FrontNavItem } from '../../types'
+import { Config } from '../../../../server/config';
+import * as ops from '../../../../server/types/utils/operations';
 
 import React, { FunctionComponent } from 'react';
 import {
@@ -26,7 +28,9 @@ import {
 
 
 type Args = {
+  config: Config,
   item: FrontNavItem,
+  parentPath?: string,
   level: number,
   onSetRemoved: (item: FrontNavItem, removed: boolean) => void,
   onEditItemClicked: (item: FrontNavItem) => void,
@@ -36,8 +40,9 @@ type Args = {
 }
 
 const Item: FunctionComponent<Args> = (args) => {
-  const { onSetRemoved, onEditItemClicked, onAddItemClicked, item, level} = args;
+  const { onSetRemoved, onEditItemClicked, onAddItemClicked, config, item, parentPath, level} = args;
   const theme = useTheme();
+  const path: string = ops.renderPath(item, config.hierarchicalPaths, parentPath);
   return (
     <Flex
       // marginTop={ theme['spaces'][2] }
@@ -46,7 +51,7 @@ const Item: FunctionComponent<Args> = (args) => {
       alignItems="stretch"
       gap={ theme['spaces'][2] }
     >
-      <ItemCard {...args} />
+      <ItemCard { ...{...args, path: path }  }/>
       { /* SUBITEMS: */ }
       { item.subItems.length > 0 &&
         <Box
@@ -57,6 +62,7 @@ const Item: FunctionComponent<Args> = (args) => {
             key={ i }
             { ...{
               ...args,
+              parentPath: path,
               level: level+1,
               item: subItem,
             } }
@@ -68,9 +74,10 @@ const Item: FunctionComponent<Args> = (args) => {
   );
 }
 
-const ItemCard: FunctionComponent<Args> = (args) => {
+const ItemCard: FunctionComponent<Args & { path: string }> = (args) => {
   const {
     item,
+    path,
     level,
     onSetRemoved,
     onEditItemClicked,
@@ -136,7 +143,7 @@ const ItemCard: FunctionComponent<Args> = (args) => {
                 fontWeight="bold"
                 textColor={ theme['colors']['primary800'] }
               >{
-                `/${item.path}`
+                path
               }</Typography>
             </Box>
             <Box

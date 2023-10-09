@@ -1,4 +1,5 @@
 import { FrontNav, FrontNavItem } from '../../types'
+import { Config } from '../../../../server/config';
 import Item from '../Item';
 
 import React, { FunctionComponent } from 'react';
@@ -12,6 +13,7 @@ import {
 
 
 type Args = {
+  config: Config,
   items: FrontNavItem[],
   onSetRemoved: (item: FrontNavItem, removed: boolean) => void,
   onEditItemClicked: (item: FrontNavItem) => void,
@@ -21,7 +23,7 @@ type Args = {
 }
 
 const ItemList: FunctionComponent<Args> = (args) => {
-  const { items, onSetRemoved, onAddItemClicked, onEditItemClicked } = args;
+  const { config, items, onSetRemoved, onAddItemClicked, onEditItemClicked } = args;
   const theme = useTheme();
   return (
     <Flex
@@ -34,6 +36,7 @@ const ItemList: FunctionComponent<Args> = (args) => {
     >{
       items.map( (item, i) => {
         return <Item
+          config={ config }
           key={ i }
           level={ 0 }
           item={ item }
