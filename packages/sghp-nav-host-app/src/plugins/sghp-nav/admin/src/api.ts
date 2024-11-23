@@ -12,16 +12,21 @@ const qs = require( "qs" );
 export async function get(
   locale?: string,
 ):
-  Promise<FrontNav>
+  Promise<FrontNav[]>
 {
   const client = getFetchClient();
   let query: { [k:string]: any } = {}
   if( locale ) { query.locale = locale;}
   const queryString = qs.stringify( query );
 
-  const res: { data: backendTypes.Navigation } = await client.get( `/${pluginId}/navigation?${ queryString }`);
-  return utils.navFromBackend( res.data );
+  const response: { data: backendTypes.Navigation[] } = await client.get( `/${pluginId}/navigation?${ queryString }`);
+  return response.data.map( utils.navFromBackend );
 };
+
+export type NavInfo = {
+  name: string,
+  id: number,
+}
 
 export async function getConfig(
   locale?: string,
@@ -37,51 +42,91 @@ export async function getLocales():
   Promise<Locale[]>
 {
   const client = getFetchClient();
-
-    const res = await client.get( `/i18n/locales`);
-    return res.data;
+  const res = await client.get( `/i18n/locales`);
+  return res.data;
 };
 
 export async function addNavigation(
-  locale?: string,
+  { locale, name }
+  : {
+    locale?: string,
+    name?: string,
+  }
 ):
-  Promise<FrontNav>
+  Promise<FrontNav[]>
 {
   const client = getFetchClient();
   let query: { [k:string]: any } = {}
   if( locale ) { query.locale = locale;}
   const queryString = qs.stringify( query );
 
+  name = name || "Main";
+
   const payload = {
     // data: {
-      name: "Main",
+      name: name,
       ...(
         locale ? { locale: locale } : {}
       ),
     // }
   }
-  console.log( `payload: ${ JSON.stringify( payload ) }` );
+  await client.post( `/${pluginId}/navigation`, payload );
+  return await get( locale );
+}
+
+export async function del(
+  id: number
+) {
+  const client = getFetchClient();
+  await client.del( `/${pluginId}/navigation/${ id }` );
+}
+export async function addLocalization(
+  { locale, name }
+  : {
+    locale?: string,
+    name?: string,
+  }
+):
+  Promise<FrontNav[]>
+{
+  const client = getFetchClient();
+  let query: { [k:string]: any } = {}
+  if( locale ) { query.locale = locale;}
+  const queryString = qs.stringify( query );
+
+  name = name || "Main";
+
+  const payload = {
+    // data: {
+      name: name,
+      ...(
+        locale ? { locale: locale } : {}
+      ),
+    // }
+  }
   await client.post( `/${pluginId}/navigation/localizations`, payload );
   return await get( locale );
 }
 
 export async function addItem(
   item: Omit<FrontNavItem,"id">,
+  navId: number,
   parent?: FrontNavItem,
   locale?: string,
 ):
-  Promise<FrontNav>
+  Promise<FrontNav[]>
 {
   // console.debug( `admin.src.api.addItem: item: ${ JSON.stringify( item ) }, parent: ${ JSON.stringify( parent ) }` );
   const client = getFetchClient();
   let dataToSend: { [k:string]: any } = {
     ...item,
+    master: navId,
   }
   if( parent ) { dataToSend.parent = parent.id; }
   if( item.related ) { dataToSend.related = item.related.id; }
   if(locale ) { dataToSend.locale = locale }
   try {
-    await client.put( `/${pluginId}/navigation/item`, {
+    await client.post( `/${pluginId}/navigation/item`, {
       data: dataToSend
     });
     return await get( locale );
@@ -96,7 +141,7 @@ export async function updateItem(
   item: FrontNavItem,
   locale?: string,
 ):
-  Promise<FrontNav>
+  Promise<FrontNav[]>
 {
   // console.debug( `admin.src.api.updateItem: item: ${ JSON.stringify( item ) }` );
   const client = getFetchClient();
@@ -107,7 +152,7 @@ export async function updateItem(
   delete dataToSend[ "removed" ];
   delete dataToSend[ "subItems" ];
   try {
-    await client.post( `/${pluginId}/navigation/item/${ item.id }`, {
+    await client.put( `/${pluginId}/navigation/item/${ item.id }`, {
       data: dataToSend
     } );
     return await get( locale );
@@ -122,9 +167,8 @@ export async function update(
   data: FrontNav,
   locale?: string,
 ):
-  Promise<FrontNav>
+  Promise<FrontNav[]>
 {
-  // console.debug( `admin.src.api.update: ${ JSON.stringify( data ) }` );
   const client = getFetchClient();
   const dataToSend = {
     ...data,
@@ -134,7 +178,7 @@ export async function update(
   if( locale ) { query.locale = locale;}
   const queryString = qs.stringify( query );
   try {
-    await client.post( `/${pluginId}/navigation?${ queryString }`, dataToSend );
+    await client.put( `/${pluginId}/navigation/${ data.id }?${ queryString }`, dataToSend );
     return await get( locale );
   }
   catch( e ) {

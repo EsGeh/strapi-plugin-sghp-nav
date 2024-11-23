@@ -22,7 +22,8 @@ export default factories.createCoreService('plugin::sghp-nav.item', ({ strapi })
       if( params.data?.locale ) {
         getNavArgs.locale = params.data?.locale;
       }
-      nav = await strapi.service("plugin::sghp-nav.adminNav").renderAdmin( getNavArgs );
+      const navs: types.Navigation[] = await strapi.service("plugin::sghp-nav.adminNav").renderAdmin( getNavArgs );
+      nav = navs.find( x => (x.id == params.data.master) );
     }
     if( !nav ) {
       throw new errors.NotFoundError('Navigation not found');

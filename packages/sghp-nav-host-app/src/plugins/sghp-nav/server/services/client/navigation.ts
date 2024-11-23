@@ -11,7 +11,53 @@ import { merge } from 'lodash';
 
 export default factories.createCoreService('plugin::sghp-nav.navigation', ({ strapi }) =>  ({
 
-  async render(
+  async renderAll(
+    params
+  ) {
+    const config: Config = strapi.config.get('plugin.sghp-nav');
+    let findArgs: Record<string,any> = merge(
+      Private.findRawArgs,
+      {
+        populate: {
+          items: {
+            populate: {
+              related: params?.populateRelated || false
+            }
+          }
+        }
+      }
+    );
+    if( params.locale ) {
+      findArgs.locale = params.locale;
+    }
+
+    /* we dont actually know "typeof findArgs"
+     * because we dont know how the related
+     * field is populated.
+     * We therefore assume a type
+     * that is close enough.
+     */
+
+    const rawFindRet = await this.find(
+      findArgs
+    );
+    const renderedNavs = rawFindRet.results.map( nav => {
+      const structuredNavData = utils.fromFlatItems(
+        nav.items
+      );
+      const renderedItems = typeUtils.renderPathsItems(
+        structuredNavData,
+        config.hierarchicalPaths,
+      );
+      return {
+        ...nav,
+        items: renderedItems,
+      }
+    })
+    return renderedNavs;
+  },
+
+  async renderMain(
     params
   )
     // : Promise<types.RenderReturn<Related>>
@@ -33,7 +79,6 @@ export default factories.createCoreService('plugin::sghp-nav.navigation', ({ str
     if( params.locale ) {
       findArgs.locale = params.locale;
     }
-    // console.log( `findArgs: ${ JSON.stringify( findArgs, null, 2) }` );
 
     /* we dont actually know "typeof findArgs"
      * because we dont know how the related
@@ -42,20 +87,25 @@ export default factories.createCoreService('plugin::sghp-nav.navigation', ({ str
      * that is close enough.
      */
 
-    const navData: types.FindReturn<any, typeof Private.findRawArgsWithRelated> = await this.find(
+    const rawFindRet = await this.find(
       findArgs
     );
-    if( !navData ) {
+    let rawNavData: types.FindReturn<any, typeof Private.findRawArgsWithRelated> | null = null;
+    if( rawFindRet.results.filter( x=>x.name == "Main") ) {
+      rawNavData = rawFindRet.results.filter( x=>x.name == "Main")[0];
+    }
+    if( !rawNavData ) {
       throw new errors.NotFoundError('Navigation not found');
     }
+    const structuredNavData = utils.fromFlatItems(
+      rawNavData.items
+    );
     const renderedItems = typeUtils.renderPathsItems(
-      utils.fromFlatItems(
-        navData.items
-      ),
+      structuredNavData,
       config.hierarchicalPaths,
     );
     return {
-      ...navData,
+      ...rawNavData,
       items: renderedItems,
     }
   },
@@ -69,7 +119,6 @@ export default factories.createCoreService('plugin::sghp-nav.navigation', ({ str
   },
 
 }));
-
 
 namespace Private {
   export const findRawArgs = {

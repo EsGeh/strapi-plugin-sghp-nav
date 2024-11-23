@@ -563,7 +563,7 @@ export interface PluginSghpNavItem extends Schema.CollectionType {
   };
 }
 
-export interface PluginSghpNavNavigation extends Schema.SingleType {
+export interface PluginSghpNavNavigation extends Schema.CollectionType {
   collectionName: 'navigation';
   info: {
     singularName: 'navigation';

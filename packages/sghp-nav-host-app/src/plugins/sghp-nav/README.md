@@ -68,94 +68,100 @@ Configuration Options:
 
 Example Query:
 
-  $ curl -X GET 'http://localhost:1337/api/sghp-nav/render'
+  $ curl -X GET 'http://localhost:1337/api/sghp-nav/navigations/render'
+
+  // deprecated legacy call:
+  // $ curl -X GET 'http://localhost:1337/api/sghp-nav/render'
 
 Example Response:
 
     {
-      "data": {
-        "id": 2,
-        "attributes": {
-          "name": "Main",
-          "createdAt": "2023-09-15T13:07:45.827Z",
-          "updatedAt": "2023-09-22T11:46:45.572Z",
-          "locale": "en",
-          "items": {
-            "data": [
-              {
-                "id": 1,
-                "attributes": {
-                  "title": "Home",
-                  "path": "/",
-                  "related": {
-                  },
-                  "subItems": {
-                    "data": []
+      "data": [
+        {
+          "id": 2,
+          "attributes": {
+            "name": "Main",
+            "createdAt": "2023-09-15T13:07:45.827Z",
+            "updatedAt": "2023-09-22T11:46:45.572Z",
+            "locale": "en",
+            "items": {
+              "data": [
+                {
+                  "id": 1,
+                  "attributes": {
+                    "title": "Home",
+                    "path": "/",
+                    "related": {
+                    },
+                    "subItems": {
+                      "data": []
+                    }
                   }
-                }
-              },
-              {
-                "id": 5,
-                "attributes": {
-                  "title": "Products",
-                  "path": "/products",
-                  "related": {
-                  },
-                  "subItems": {
-                    "data": [
-                      {
-                        "id": 6,
-                        "attributes": {
-                          "title": "Product X",
-                          "path": "/products/product-x",
-                          "related": {
-                          },
-                          "subItems": {
-                            "data": []
+                },
+                {
+                  "id": 5,
+                  "attributes": {
+                    "title": "Products",
+                    "path": "/products",
+                    "related": {
+                    },
+                    "subItems": {
+                      "data": [
+                        {
+                          "id": 6,
+                          "attributes": {
+                            "title": "Product X",
+                            "path": "/products/product-x",
+                            "related": {
+                            },
+                            "subItems": {
+                              "data": []
+                            }
                           }
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
-                }
-              },
-              {
-                "id": 2,
-                "attributes": {
-                  "title": "Contact",
-                  "path": "/contact",
-                  "related": {
+                },
+                {
+                  "id": 2,
+                  "attributes": {
+                    "title": "Contact",
+                    "path": "/contact",
+                    "related": {
     
-                  },
-                  "subItems": {
-                    "data": []
+                    },
+                    "subItems": {
+                      "data": []
+                    }
                   }
                 }
-              }
-            ]
-          },
-          "localizations": {
-            "data": [
-              {
-                "id": 3,
-                "attributes": {
-                  "name": "Main",
-                  "createdAt": "2023-09-22T11:46:45.523Z",
-                  "updatedAt": "2023-09-22T11:46:45.523Z",
-                  "locale": "de"
+              ]
+            },
+            "localizations": {
+              "data": [
+                {
+                  "id": 3,
+                  "attributes": {
+                    "name": "Main",
+                    "createdAt": "2023-09-22T11:46:45.523Z",
+                    "updatedAt": "2023-09-22T11:46:45.523Z",
+                    "locale": "de"
+                  }
                 }
-              }
-            ]
+              ]
+            }
           }
-        }
-      },
+        },
+        // other Menus (footer, etc)...
+      ],
       "meta": {
       }
     }
 
 Request Format:
 
-    http://localhost:1337/api/sghp-nav/render?<PARAMS>
+    http://localhost:1337/api/sghp-nav/navigations/render?<PARAMS>
 
 Get Params:
 

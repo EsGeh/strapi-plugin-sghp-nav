@@ -1,5 +1,5 @@
 export default {
-  "kind": "singleType",
+  "kind": "collectionType",
   "collectionName": "navigation",
   "info": {
     "singularName": "navigation",
@@ -15,7 +15,7 @@ export default {
       "localized": true
     },
     "content-manager": {
-      "visible": false
+      "visible": true
     },
     "content-type-builder": {
       "visible": true

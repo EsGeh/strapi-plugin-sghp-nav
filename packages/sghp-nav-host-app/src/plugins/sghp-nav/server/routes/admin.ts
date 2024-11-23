@@ -2,6 +2,15 @@ export default {
   type: "admin",
   routes: [
     {
+      method: 'POST',
+      path: '/navigation/localizations',
+      handler: 'adminNav.createLocalization',
+      config: {
+        policies: [],
+        auth: false,
+      },
+    },
+    {
       method: 'GET',
       path: '/navigation',
       handler: 'adminNav.renderAdmin',
@@ -13,6 +22,15 @@ export default {
     {
       method: 'POST',
       path: '/navigation',
+      handler: 'adminNav.createAdmin',
+      config: {
+        policies: [],
+        auth: false,
+      },
+    },
+    {
+      method: 'PUT',
+      path: '/navigation/:id',
       handler: 'adminNav.updateAdmin',
       config: {
         policies: [],
@@ -20,9 +38,9 @@ export default {
       },
     },
     {
-      method: 'POST',
-      path: '/navigation/localizations',
-      handler: 'adminNav.createLocalization',
+      method: 'DELETE',
+      path: '/navigation/:id',
+      handler: 'adminNav.deleteAdmin',
       config: {
         policies: [],
         auth: false,
@@ -40,7 +58,7 @@ export default {
     },
     // items:
     {
-      method: 'POST',
+      method: 'PUT',
       path: '/navigation/item/:id',
       handler: 'adminItem.update',
       config: {
@@ -49,7 +67,7 @@ export default {
       },
     },
     {
-      method: 'PUT',
+      method: 'POST',
       path: '/navigation/item',
       handler: 'adminItem.create',
       config: {

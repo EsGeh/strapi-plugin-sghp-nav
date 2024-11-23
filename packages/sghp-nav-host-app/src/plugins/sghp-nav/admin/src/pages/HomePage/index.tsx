@@ -9,6 +9,7 @@ import * as utils from '../../utils'
 import * as api from '../../api';
 import pluginId from '../../pluginId';
 import ItemList from '../../components/List'
+import { default as AddNavModal } from '../../components/AddNavModal'
 import AddItemModal from '../../components/AddItemModal'
 import { Config } from '../../../../server/config';
 
@@ -35,23 +36,33 @@ import { useTheme } from 'styled-components';
 type State = {
   config: Config|null,
   data: FrontNav|null,
+  name: string,
   locales: Locale[],
+  navigations: NavInfo[],
   locale: string|null,
+  newNavFormParams: NewNavParams|null,
   itemFormParams: ItemFormParams|null,
   error?: string,
 };
+
+type NewNavParams = {};
 
 type ItemFormParams = {
   parent?: FrontNavItem,
   item?: FrontNavItem,
   errors: string[],
-}
+};
+
+type NavInfo = api.NavInfo;
 
 const initialState: State = {
   config: null,
   data: null,
+  name: "Main",
+  navigations: [],
   locales: [],
   locale: null,
+  newNavFormParams: null,
   itemFormParams: null,
 };
 
@@ -60,22 +71,25 @@ function HomePage() {
   const [state, setState] = useState<State>( initialState );
   const theme = useTheme();
 
-  function loadData( locale?: string ) {
+  function loadNavigation(
+    name?: string
+  ) {
+    console.debug( `loadNavigation: name: ${name}` );
+    const nameSafe = name || (state.data && state.name) || "Main";
+    let locale: string|undefined = state.locale || undefined;
     api.getConfig().then( config => {
     api.getLocales().then( locales => {
-    api.get( locale ).then( nav => {
-      setState({ ...state,
-        config: config,
-        data: nav,
-        locales: locales,
-        locale: nav.locale,
-      });
-    }).catch( error => {
-      if( error.response.status >= 400 && error.response.status < 500 ) {
-        console.log( `not existing ${ error.response.status }` );
+    api.get( locale ).then( navs => {
+      const nav = navs.find(nav => (
+        nav.name == nameSafe
+      ));
+      if( !nav ) {
+        console.error( `nav not found: ${ name }, ${ locale }` );
         setState({ ...state,
           config: config,
           data: null,
+          navigations: navs,
+          name: nameSafe,
           locales: locales,
           locale: locale || null,
         });
@@ -83,19 +97,63 @@ function HomePage() {
       else {
         setState({ ...state,
           config: config,
-          data: null,
+          data: nav,
+          navigations: navs,
+          name: nameSafe,
           locales: locales,
-          locale: locale || null,
-          error: `Could not load navigation: ERROR: ${ error }`
+          locale: nav.locale,
         });
       }
+      // console.debug( `new state: ${ JSON.stringify( state ) }` );
     })
     })
-    });
+    }).catch( error => {
+      setState(initialState);
+    })
+  }
+
+  function loadLocale(
+    locale: string
+  ) {
+    console.debug( `loadLocale: locale: ${locale}` );
+    // const nameSafe = name || (state.data && state.name) || "Main";
+    api.getConfig().then( config => {
+    api.getLocales().then( locales => {
+    api.get( locale ).then( navs => {
+      const nav = navs.find(nav => (
+        nav.name == state.name
+      ));
+      if( !nav ) {
+        console.error( `nav not found: ${ name }, ${ locale }` );
+        setState({ ...state,
+          config: config,
+          data: null,
+          // navigations: navs,
+          // name
+          locales: locales,
+          locale: locale,
+        });
+      }
+      else {
+        setState({ ...state,
+          config: config,
+          data: nav,
+          navigations: navs,
+          // name
+          locales: locales,
+          locale: locale,
+        });
+      }
+      // console.debug( `new state: ${ JSON.stringify( state ) }` );
+    })
+    })
+    }).catch( error => {
+      setState(initialState);
+    })
   }
 
   useEffect(() => {
-    loadData();
+    loadNavigation();
   }, []);
 
   if( state.error ) {
@@ -109,9 +167,13 @@ function HomePage() {
     if( !state.data ) {
       return;
     }
-    api.update( state.data,  state.data?.locale ).then( newData => {
+    api.update( state.data,  state.data?.locale ).then( navs => {
+      const nav = navs.find(nav => (
+        nav.name == state.data?.name
+      ));
       setState({ ...state,
-        data: newData,
+        data: nav || null,
+        navigations: navs,
       });
     });
   };
@@ -126,6 +188,50 @@ function HomePage() {
       itemFormParams: null,
     });
   };
+
+  const handleNewNavOpen = () => {
+    setState( { ...state,
+      newNavFormParams: {},
+    });
+  };
+  const handleDelNav = () => {
+    if( !state.data ) return;
+    api.del( state.data.id ).then( () => {
+    api.get( state.data?.locale ).then( () => {
+      loadNavigation("Main");
+    });
+    });
+  };
+
+  const handleNewNavCommit = (params: string) => {
+    api.addNavigation({
+      locale: state.locale || undefined,
+      name: params,
+    }).then( navs => {
+      state.name = params;
+      const nav = navs.find(nav => (
+        nav.name == state.name
+        && nav.locale == state.locale
+      ));
+      state.newNavFormParams = null;
+      setState({ ...state,
+        data: nav || null,
+        navigations: navs,
+      });
+    })
+    .catch( error => {
+      error: `Could not add navigation: ERROR: ${ error }`
+    });
+    // setState( { ...state,
+    //   newNavFormParams: null,
+    // });
+  };
+  const handleNewNavAbort = () => {
+    setState( { ...state,
+      newNavFormParams: null,
+    });
+  };
+
 
   const handleItemFormSubmit = (data: Omit<FrontNavItem,"id"> ) => {
     if( !state.data ) return;
@@ -147,9 +253,13 @@ function HomePage() {
         setState({ ...state });
         return;
       }
-      api.addItem( data, parent, state.data?.locale ).then( newData => {
+      api.addItem( {...data }, state.data.id, parent, state.data?.locale ).then( navs => {
+        const nav = navs.find(nav => (
+          nav.name == state.data?.name
+        ));
         setState({ ...state,
-          data: newData,
+          data: nav || null,
+          navigations: navs,
           itemFormParams: null,
         });
       });
@@ -170,9 +280,13 @@ function HomePage() {
         setState({ ...state });
         return;
       }
-      api.updateItem( newItem,  state.data?.locale ).then( newData => {
+      api.updateItem( newItem,  state.data?.locale ).then( navs => {
+        const nav = navs.find(nav => (
+          nav.name == state.data?.name
+        ));
         setState({ ...state,
-          data: newData,
+          data: nav || null,
+          navigations: navs,
           itemFormParams: null,
         });
       });
@@ -187,10 +301,17 @@ function HomePage() {
     } );
   }
 
-  const handleAddNavigation = () => {
-    api.addNavigation( state.locale || undefined ).then( newData => {
+  const handleAddLocalization = () => {
+    api.addLocalization({
+      name: state.data?.name,
+      locale: state.locale || undefined
+    }).then( navs => {
+      const nav = navs.find(nav => (
+        nav.name == state.name
+      ));
       setState({ ...state,
-        data: newData,
+        data: nav || null,
+        navigations: navs,
       });
     })
     .catch( error => {
@@ -198,9 +319,12 @@ function HomePage() {
     });
   }
 
+  const handleChangeNavigation = (name: string) => {
+    loadNavigation(name);
+  }
+
   const handleChangeLanguage = (locale: string) => {
-    // console.debug( `handleChangeLanguage: ${ locale }` );
-    loadData( locale );
+    loadLocale(locale);
   }
 
   function onItemMoveUp (item: FrontNavItem) {
@@ -222,6 +346,13 @@ function HomePage() {
   };
   return (
     <Main>
+      { (state.newNavFormParams != null) &&
+        <AddNavModal
+          existing={ state.navigations }
+          onCommit={ handleNewNavCommit }
+          onAbort={ handleNewNavAbort }
+        />
+      }
       { state.data && state.itemFormParams &&
         <AddItemModal
           item={ state.itemFormParams?.item }
@@ -234,6 +365,9 @@ function HomePage() {
       }
       <Header
         state={ state }
+        handleNewNavOpen={ handleNewNavOpen }
+        handleDelNav={ handleDelNav }
+        handleChangeNavigation={ handleChangeNavigation }
         handleChangeLanguage={ handleChangeLanguage }
         handleSave={ handleSave }
       />
@@ -246,7 +380,7 @@ function HomePage() {
               <Button
                 // fullWidth
                 startIcon={<Plus />}
-                onClick={ () => { handleAddNavigation(); } }
+                onClick={ () => { handleAddLocalization(); } }
               >{
                 "Add Navigation for this locale"
               }</Button>
@@ -288,13 +422,19 @@ function HomePage() {
 function Header(
   {
     state,
+    handleNewNavOpen,
+    handleDelNav,
+    handleChangeNavigation,
     handleChangeLanguage,
     handleSave,
   }:
   {
     state: State,
-    handleChangeLanguage: any,
-    handleSave: any
+    handleNewNavOpen: Function,
+    handleDelNav: Function,
+    handleChangeNavigation: Function,
+    handleChangeLanguage: Function,
+    handleSave: Function
   }
 ) {
   const theme = useTheme();
@@ -305,7 +445,32 @@ function Header(
         primaryAction={
           <Flex
             gap={ theme['spaces'][2] }
+            alignItems="flex-end"
           >
+            <Button
+              label={ "label" }
+              variant="danger"
+              disabled={ !state.data || state.name == "Main" }
+              onClick={ handleDelNav }
+            >{ "Delete" }</Button>
+            <Button
+              fullWidth
+              startIcon={<Plus />}
+              label={ "label" }
+              onClick={ handleNewNavOpen }
+            >{
+              "Add Navigation"
+            }</Button>
+            <SingleSelect
+              label="Navigations"
+              placeholder="Select Navigation..."
+              onChange={ handleChangeNavigation }
+              value={ state.name }
+            >{
+              state.navigations.map( (navInfo, i) => (
+                <SingleSelectOption key={ i } value={ navInfo.name }>{ navInfo.name }</SingleSelectOption>
+              ) )
+            }</SingleSelect>
             <SingleSelect
               label="Locales"
               placeholder="Language..."
