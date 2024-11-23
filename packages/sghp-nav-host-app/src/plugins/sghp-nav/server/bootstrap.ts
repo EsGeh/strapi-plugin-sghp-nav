@@ -13,7 +13,8 @@ export default async ({ strapi }: { strapi: Strapi }) => {
     return;
   }
   let mainEntry = await strapi.entityService.findMany( modelUID );
-  if( !mainEntry ) {
+  if( !mainEntry || mainEntry.length == 0 ) {
+    console.info( "sghp-nav: creating default navigations..." );
     await strapi.entityService.create( modelUID, {
       data: {
         name: "Main",
