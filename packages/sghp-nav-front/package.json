@@ -1,6 +1,6 @@
 {
   "name": "@sgsoftware/strapi-plugin-sghp-nav-front",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "Frontend types for the Navigation Plugin for Strapi.",
   "devDependencies": {
     "typescript": "5.0.4"
@@ -21,13 +21,13 @@
   "author": {
     "name": "Samuel Gfrörer",
     "email": "samuel@esgeh.net",
-    "url": "https://esgeh.net"
+    "url": "https://software.esgeh.net"
   },
   "maintainers": [
     {
       "name": "Samuel Gfrörer",
       "email": "samuel@esgeh.net",
-      "url": "https://esgeh.net"
+      "url": "https://software.esgeh.net"
     }
   ],
   "homepage": "https://github.com/EsGeh/strapi-plugin-sghp-nav",

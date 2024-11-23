@@ -8,6 +8,7 @@ Plugin for [Strapi](https://strapi.io/) to create, edit and retrieve website nav
 
 - Graphical user interface for editing site navigation
 - i18n, Nationalization: seperate navigation for every locale
+- Multiple independent navigations supported (footer, etc)
 - Configurable via config file
 - Strapi conformant REST API to fetch hierarchical menu data
 - Typescript types for REST responses included
@@ -228,12 +229,12 @@ Example code:
     };
 
     // FUNCTIONS:
-    export async function getNavigation(
+    export async function getNavigations(
       locale: string|null = null,
     ):
-      Promise<Navigation>
+      Promise<Navigation[]>
     {
-      const apiKey = "sghp-nav/render";
+      const apiKey = "sghp-nav/navigations/render";
       let queryObj: Record<string, any> = {
         populateRelated: pageParams
       }
@@ -246,11 +247,11 @@ Example code:
       if( ! response?.ok ) {
         throw new Error( `Error when fetching data from '${url}': returned HTTP status '${response.status}'` );
       }
-      const data = await response.json();
-      if( !data ) {
+      const json = await response.json();
+      if( !json ) {
         throw new Error( `Error when fetching data from '${url}': no data!` );
       }
-      return data as Navigation;
+      return json.data as Navigation[];
     }
 
 Eplanation:
