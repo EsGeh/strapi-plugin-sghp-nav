@@ -4,14 +4,14 @@ import { Config } from '../../config';
 import * as utils from '../utils'
 import * as typeUtils from '../../types/utils';
 
-import { EntityService, factories } from '@strapi/strapi';
+import { EntityService, factories, Strapi } from '@strapi/strapi';
 import { errors } from '@strapi/utils';
 import { merge } from 'lodash';
 const { prop, map, } = require('lodash/fp');
 
 
 
-export default factories.createCoreService('plugin::sghp-nav.navigation', ({ strapi }) =>  ({
+export default factories.createCoreService('plugin::sghp-nav.navigation', ({ strapi }: {strapi: Strapi}) =>  ({
 
   async renderAdmin(
     params
@@ -30,7 +30,7 @@ export default factories.createCoreService('plugin::sghp-nav.navigation', ({ str
       },
       params,
     );
-    let findRet: { results: utils.NavFromDB[] } = await this.find( findArgs );
+    let findRet: { results: utils.NavFromDB[] } = await super.find( findArgs );
     const renderedNavs: types.Navigation[] = await Promise.all(findRet.results.map( async (navData) : Promise<types.Navigation> => {
       return await this.getNavigationFromFlat( navData, params?.locale );
     }));
@@ -45,7 +45,8 @@ export default factories.createCoreService('plugin::sghp-nav.navigation', ({ str
   {
     // console.log( `services.admin.navigation.getNavigationFromFlat: ${ JSON.stringify( navData ) }` );
     const config: Config = strapi.config.get('plugin.sghp-nav');
-    const relatedEntities: { [key:string]: any } = await strapi.entityService.findMany( config.relatedType, {
+    type ContentType = any; // TODO: fix type safety
+    const relatedEntities: { [key:string]: any } = await strapi.entityService.findMany( config.relatedType as ContentType, {
       populate: ['id', config.relatedDisplayField],
       ...( locale ? { locale } : {} ),
     });
@@ -77,9 +78,9 @@ export default factories.createCoreService('plugin::sghp-nav.navigation', ({ str
     if( validationErrors.length > 0 ) {
       throw new errors.ValidationError(`invalid navigation data: ${ validationErrors.join() }`);
     }
-    const navData: types.Navigation = await this.findOne( entityId, {
+    const navData: types.Navigation = await super.findOne( entityId, {
       populate: {
-          items: utils.populateItemsRender(),
+        items: utils.populateItemsRender(),
         locale: "*",
         localizations: "*",
       },
@@ -89,7 +90,8 @@ export default factories.createCoreService('plugin::sghp-nav.navigation', ({ str
       throw new errors.NotFoundError('Navigation not found');
     }
     if( data.name !== navData.name ) {
-      await strapi.entityService.update('plugin::sghp-nav.navigation', entityId, data);
+      // TODO: is this correct?:
+      await strapi.entityService.update('plugin::sghp-nav.navigation', entityId, {data: data} );
     }
     const flatItems = utils.toFlatItems( data.items );
     let updates = [];
@@ -105,7 +107,7 @@ export default factories.createCoreService('plugin::sghp-nav.navigation', ({ str
       if( ! navData.items.find( x => x.id === item.id  ) ) { }
       // UPDATE
       else {
-        const update = {
+        const update: any = {
           title: item.title,
           path: item.path,
           order: item.order,
